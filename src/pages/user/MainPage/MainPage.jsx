@@ -3,9 +3,9 @@ import { MdOutlineChatBubbleOutline } from "react-icons/md";
 import * as s from "./styles";
 import { FiUsers, FiZap } from "react-icons/fi";
 
-function MainPage() {
+function MainPage({ showSideBar }) {
     return (
-        <div css={s.container}>
+        <div css={s.container(showSideBar)}>
             <div css={s.mainContainer}>
                 <div css={s.topBox}>
                     <h1>

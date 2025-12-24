@@ -11,9 +11,8 @@ function SigninPage() {
         <div css={s.container}>
             <div css={s.mainContainer}>
                 <div>
-                    <button onClick={() => navigate(-1)}>
-                        <IoArrowBack />
-                        뒤로가기
+                    <button onClick={() => navigate("/")}>
+                        <IoArrowBack />홈
                     </button>
                 </div>
                 <div css={s.signinBox}>
@@ -45,7 +44,7 @@ function SigninPage() {
                             <span>또는</span>
                         </div>
                         <div css={s.buttonBox}>
-                            <button>
+                            <button onClick={() => navigate("/auth/oauth2")}>
                                 <FcGoogle />
                                 구글로 로그인
                             </button>

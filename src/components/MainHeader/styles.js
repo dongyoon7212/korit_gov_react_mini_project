@@ -84,3 +84,11 @@ export const rightBox = css`
         }
     }
 `;
+
+export const sideBarContainer = (showSideBar) => css`
+    position: absolute;
+    z-index: 100;
+    top: 0;
+    left: ${showSideBar ? "0" : "-300px"};
+    transition: all 0.15s ease-in-out;
+`;
