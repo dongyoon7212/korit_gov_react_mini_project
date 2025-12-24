@@ -59,14 +59,14 @@ export const rightBox = css`
         cursor: pointer;
     }
 
-    & > button:nth-child(1) {
+    & > button:nth-of-type(1) {
         background-color: transparent;
         &:hover {
             background-color: #f2f2f2;
         }
     }
 
-    & > button:nth-child(2) {
+    & > button:nth-of-type(2) {
         background: #4f39f6;
         background: linear-gradient(
             90deg,
