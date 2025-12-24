@@ -1,6 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { MdOutlineChatBubbleOutline } from "react-icons/md";
 import * as s from "./styles";
+import { FiUsers, FiZap } from "react-icons/fi";
 
 function MainPage() {
     return (
@@ -32,7 +33,9 @@ function MainPage() {
                         </p>
                     </div>
                     <div css={s.card}>
-                        <div></div>
+                        <div>
+                            <FiUsers />
+                        </div>
                         <h3>활발한 커뮤니티</h3>
                         <p>
                             다양한 분야의 개발자들과 네트워킹하고 인사이트를
@@ -40,7 +43,9 @@ function MainPage() {
                         </p>
                     </div>
                     <div css={s.card}>
-                        <div></div>
+                        <div>
+                            <FiZap />
+                        </div>
                         <h3>빠른 성장</h3>
                         <p>
                             실시간으로 업데이트되는 최신 기술 트렌드와 팁을

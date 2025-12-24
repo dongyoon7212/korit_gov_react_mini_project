@@ -1,8 +1,14 @@
 /** @jsxImportSource @emotion/react */
 import { IoMenu } from "react-icons/io5";
 import * as s from "./styles";
+import { useNavigate } from "react-router-dom";
 
 function MainHeader() {
+    const navigate = useNavigate();
+
+    const onClickSigninHandler = () => {
+        navigate("/auth/signin");
+    };
     return (
         <div css={s.container}>
             <div css={s.leftBox}>
@@ -12,7 +18,7 @@ function MainHeader() {
                 <div>TechBoard</div>
             </div>
             <div css={s.rightBox}>
-                <button>로그인</button>
+                <button onClick={onClickSigninHandler}>로그인</button>
                 <button>회원가입</button>
             </div>
         </div>

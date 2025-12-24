@@ -16,7 +16,7 @@ export const mainContainer = css`
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-evenly;
     gap: 50px;
 `;
 
@@ -63,6 +63,7 @@ export const topBox = css`
         color: white;
         transition: all 0.15s ease;
         cursor: pointer;
+        box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1);
 
         &:hover {
             background: linear-gradient(
@@ -88,10 +89,11 @@ export const card = css`
     flex-direction: column;
     justify-content: space-between;
     align-items: start;
-    border-radius: 8px;
+    border-radius: 16px;
     background-color: white;
     box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1);
     transition: all 0.2s ease;
+    gap: 20px;
 
     &:hover {
         box-shadow: 0px 20px 15px -3px rgba(0, 0, 0, 0.1);
@@ -112,5 +114,15 @@ export const card = css`
         );
         color: white;
         border-radius: 14px;
+    }
+
+    & > h3 {
+        margin: 0;
+    }
+
+    & > p {
+        margin: 0;
+        font-size: 16px;
+        font-weight: 300;
     }
 `;

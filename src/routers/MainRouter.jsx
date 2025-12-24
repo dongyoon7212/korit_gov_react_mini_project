@@ -2,15 +2,23 @@ import React from "react";
 import { Route, Routes } from "react-router-dom";
 import MainPage from "../pages/user/MainPage/MainPage";
 import Layout from "../components/Layout/Layout";
+import AuthRouter from "./AuthRouter";
 
 function MainRouter() {
     return (
         <>
-            <Layout>
-                <Routes>
-                    <Route path="/" element={<MainPage />} />
-                </Routes>
-            </Layout>
+            <Routes>
+                <Route
+                    path="/"
+                    element={
+                        <Layout>
+                            <MainPage />
+                        </Layout>
+                    }
+                />
+
+                <Route path="/auth/*" element={<AuthRouter />} />
+            </Routes>
         </>
     );
 }
