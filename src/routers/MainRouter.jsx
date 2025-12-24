@@ -16,7 +16,10 @@ function MainRouter() {
                         <Layout
                             showSideBar={showSideBar}
                             setShowSideBar={setShowSideBar}>
-                            <MainPage showSideBar={showSideBar} />
+                            <MainPage
+                                showSideBar={showSideBar}
+                                setShowSideBar={setShowSideBar}
+                            />
                         </Layout>
                     }
                 />
