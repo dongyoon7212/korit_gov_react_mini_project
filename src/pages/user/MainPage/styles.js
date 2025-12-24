@@ -3,7 +3,13 @@ import { css } from "@emotion/react";
 export const container = css`
     width: 100vw;
     flex-grow: 1;
-    background-color: #fafafa;
+    background: #eef2ff;
+    background: linear-gradient(
+        90deg,
+        rgba(238, 242, 255, 1) 0%,
+        rgba(250, 245, 255, 1) 50%,
+        rgba(253, 242, 248, 1) 100%
+    );
     padding: 0 200px;
     box-sizing: border-box;
 `;

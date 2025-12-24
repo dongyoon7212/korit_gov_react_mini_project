@@ -40,7 +40,7 @@ export const mainContainer = css`
     }
 `;
 
-export const signinBox = css`
+export const signupBox = css`
     width: 448px;
     background-color: white;
     border-radius: 14px;
@@ -70,12 +70,6 @@ export const topBox = css`
 export const bottomBox = css`
     padding: 0 24px 24px;
     box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
-`;
-
-export const inputBox = css`
     display: flex;
     flex-direction: column;
     gap: 15px;
@@ -121,72 +115,5 @@ export const inputBox = css`
                 rgba(152, 16, 250, 1) 100%
             );
         }
-    }
-`;
-
-export const lineBox = css`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    &::before {
-        width: calc(50% - 20px);
-        display: block;
-        content: "";
-        height: 1px;
-        background-color: oklch(0.551 0.027 264.364);
-    }
-
-    &::after {
-        width: calc(50% - 20px);
-        display: block;
-        content: "";
-        height: 1px;
-        background-color: oklch(0.551 0.027 264.364);
-    }
-
-    & > span {
-        text-align: center;
-        width: 40px;
-        font-size: 12px;
-        padding: 0 8px;
-        box-sizing: border-box;
-        color: oklch(0.551 0.027 264.364);
-    }
-`;
-
-export const buttonBox = css`
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-
-    & > button {
-        border: 1px solid #dbdbdb;
-        padding: 8px 16px;
-        border-radius: 8px;
-        font-size: 14px;
-        transition: all 0.15s ease;
-        cursor: pointer;
-        background-color: transparent;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 10px;
-
-        &:hover {
-            background-color: #f2f2f2;
-        }
-    }
-`;
-
-export const signupBox = css`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-
-    & > a {
-        text-decoration: none;
-        color: oklch(0.457 0.24 277.023);
     }
 `;

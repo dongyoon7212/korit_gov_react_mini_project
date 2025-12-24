@@ -1,7 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { IoArrowBack } from "react-icons/io5";
 import * as s from "./styles";
-import { FaGoogle } from "react-icons/fa";
 import { SiNaver } from "react-icons/si";
 import { Link, useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
