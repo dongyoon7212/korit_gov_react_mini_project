@@ -1,13 +1,15 @@
 /** @jsxImportSource @emotion/react */
 import { IoArrowBack } from "react-icons/io5";
 import * as s from "./styles";
+import { useNavigate } from "react-router-dom";
 
 function BoardDetailPage() {
+    const navigate = useNavigate();
     return (
         <div css={s.container}>
             <div css={s.mainContainer}>
                 <div>
-                    <button>
+                    <button onClick={() => navigate("/board/list")}>
                         <IoArrowBack />
                         목록으로
                     </button>

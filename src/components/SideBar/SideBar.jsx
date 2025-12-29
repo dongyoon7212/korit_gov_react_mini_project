@@ -24,7 +24,11 @@ function SideBar({ setShowSideBar }) {
                         <IoList />
                         게시물 보기
                     </li>
-                    <li>
+                    <li
+                        onClick={() => {
+                            navigate("/board/add");
+                            setShowSideBar((prev) => !prev);
+                        }}>
                         <LuPen />
                         글쓰기
                     </li>
