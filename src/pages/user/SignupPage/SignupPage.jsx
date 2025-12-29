@@ -3,6 +3,7 @@ import { IoArrowBack } from "react-icons/io5";
 import * as s from "./styles";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { signupRequest } from "../../../apis/auth/authApis";
 
 function SignupPage() {
     const navigate = useNavigate();
@@ -15,7 +16,9 @@ function SignupPage() {
 
     const passwordRegex =
         /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*?_]).{8,16}$/;
+    //8자 이상 16자 미만, 영문자, 숫자 및 특수 문자 포함
     const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i;
+    //이메일 형식
 
     const inputOnChangeHandler = (e) => {
         const { name, value } = e.target;
@@ -38,6 +41,46 @@ function SignupPage() {
             alert("모든 항목을 입력해주세요.");
             return;
         }
+
+        if (!emailRegex.test(signupInputValue.email)) {
+            alert("이메일 형식에 맞게 입력해주세요.");
+            return;
+        }
+
+        if (!passwordRegex.test(signupInputValue.password)) {
+            alert(
+                "비밀번호는 최소 8자리에서 16자리까지, 영문자, 숫자 및 특수 문자를 포함해야 합니다."
+            );
+            return;
+        }
+
+        if (signupInputValue.password !== signupInputValue.passwordConfirm) {
+            alert("비밀번호가 일치하지 않습니다.");
+            return;
+        }
+
+        if (!confirm("회원가입을 하시겠습니까?")) {
+            return;
+        }
+
+        signupRequest({
+            username: signupInputValue.username,
+            email: signupInputValue.email,
+            password: signupInputValue.password,
+        })
+            .then((response) => {
+                if (response.data.status === "success") {
+                    alert(response.data.message);
+                    navigate("/auth/signin");
+                } else if (response.data.status === "failed") {
+                    alert(response.data.message);
+                    return;
+                }
+            })
+            .catch((error) => {
+                alert("문제가 발생했습니다. 다시 시도해주세요.");
+                return;
+            });
     };
     return (
         <div css={s.container}>
@@ -57,7 +100,7 @@ function SignupPage() {
                         <div>
                             <label htmlFor="">이름</label>
                             <input
-                                name="name"
+                                name="username"
                                 type="text"
                                 placeholder="사용자 이름을 입력해주세요."
                                 onChange={inputOnChangeHandler}
@@ -95,7 +138,7 @@ function SignupPage() {
                             />
                         </div>
 
-                        <button>회원가입</button>
+                        <button onClick={signupOnClickHandler}>회원가입</button>
                     </div>
                 </div>
             </div>

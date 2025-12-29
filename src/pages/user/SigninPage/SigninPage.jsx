@@ -4,9 +4,52 @@ import * as s from "./styles";
 import { SiNaver } from "react-icons/si";
 import { Link, useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
+import { useState } from "react";
+import { signinRequest } from "../../../apis/auth/authApis";
 
 function SigninPage() {
     const navigate = useNavigate();
+    const [signinInputValue, setSigninInputValue] = useState({
+        email: "",
+        password: "",
+    });
+
+    const signinInputOnChangeHandler = (e) => {
+        const { name, value } = e.target;
+        setSigninInputValue((prev) => {
+            return {
+                ...prev,
+                [name]: value,
+            };
+        });
+    };
+
+    const signinOnClickHandler = () => {
+        if (
+            signinInputValue.email.trim().length === 0 ||
+            signinInputValue.password.trim().length === 0
+        ) {
+            alert("모든 항목을 입력해주세요.");
+            return;
+        }
+
+        signinRequest({
+            email: signinInputValue.email,
+            password: signinInputValue.password,
+        })
+            .then((response) => {
+                if (response.data.status === "success") {
+                    localStorage.setItem("AccessToken", response.data.data);
+                    window.location.href = "/";
+                } else if (response.data.status === "failed") {
+                    alert(response.data.message);
+                    return;
+                }
+            })
+            .catch((error) => {
+                alert("문제가 발생했습니다. 다시 시도해 주세요.");
+            });
+    };
     return (
         <div css={s.container}>
             <div css={s.mainContainer}>
@@ -25,20 +68,26 @@ function SigninPage() {
                             <div>
                                 <label htmlFor="email">이메일</label>
                                 <input
+                                    name="email"
                                     id="email"
                                     type="email"
                                     placeholder="이메일을 입력해주세요"
+                                    onChange={signinInputOnChangeHandler}
                                 />
                             </div>
                             <div>
                                 <label htmlFor="password">비밀번호</label>
                                 <input
+                                    name="password"
                                     id="password"
                                     type="password"
                                     placeholder="비밀번호를 입력해주세요"
+                                    onChange={signinInputOnChangeHandler}
                                 />
                             </div>
-                            <button>로그인</button>
+                            <button onClick={signinOnClickHandler}>
+                                로그인
+                            </button>
                         </div>
                         <div css={s.lineBox}>
                             <span>또는</span>
