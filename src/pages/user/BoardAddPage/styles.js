@@ -145,6 +145,10 @@ export const innerBox = css`
             border-radius: 8px;
             box-sizing: border-box;
             cursor: pointer;
+
+            &:hover {
+                background-color: #f2f2f2;
+            }
         }
 
         & > button:nth-of-type(2) {
@@ -161,6 +165,14 @@ export const innerBox = css`
                 rgba(152, 16, 250, 0.8) 100%
             );
             color: white;
+
+            &:hover {
+                background: linear-gradient(
+                    90deg,
+                    rgba(79, 57, 246, 1) 0%,
+                    rgba(152, 16, 250, 1) 100%
+                );
+            }
         }
     }
 `;

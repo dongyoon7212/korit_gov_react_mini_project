@@ -14,7 +14,7 @@ function MainHeader({ showSideBar, setShowSideBar }) {
                 <button onClick={() => setShowSideBar((prev) => !prev)}>
                     <IoMenu />
                 </button>
-                <div>TechBoard</div>
+                <div onClick={() => navigate("/")}>TechBoard</div>
             </div>
             <div css={s.rightBox}>
                 <button onClick={() => navigate("/auth/signin")}>로그인</button>

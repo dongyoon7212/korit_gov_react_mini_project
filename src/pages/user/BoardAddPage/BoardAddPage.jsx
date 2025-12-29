@@ -1,8 +1,15 @@
 /** @jsxImportSource @emotion/react */
 import { LuSparkles } from "react-icons/lu";
 import * as s from "./styles";
+import { useState } from "react";
 
 function BoardAddPage() {
+    const [contentInputValue, setContentInputValue] = useState("");
+
+    const contentInputOnChangeHandler = (e) => {
+        setContentInputValue(e.target.value);
+    };
+
     return (
         <div css={s.container}>
             <div css={s.mainContainer}>
@@ -27,10 +34,11 @@ function BoardAddPage() {
                             <textarea
                                 name=""
                                 id=""
+                                onChange={contentInputOnChangeHandler}
                                 placeholder="내용을 입력하세요."></textarea>
                         </div>
                         <div>
-                            <span>0자</span>
+                            <span>{contentInputValue.length}자</span>
                             <span>최소 10자 이상 작성해주세요</span>
                         </div>
                         <div>
