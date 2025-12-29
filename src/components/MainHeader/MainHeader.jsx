@@ -23,7 +23,7 @@ function MainHeader({ showSideBar, setShowSideBar }) {
                 </button>
             </div>
             <div css={s.sideBarContainer(showSideBar)}>
-                <SideBar />
+                <SideBar setShowSideBar={setShowSideBar} />
             </div>
         </div>
     );
