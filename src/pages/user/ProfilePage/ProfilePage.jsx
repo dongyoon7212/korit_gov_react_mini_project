@@ -151,6 +151,13 @@ function ProfilePage() {
                     </div>
                 </div>
             </div>
+            {isUploading ? (
+                <div css={s.blurBox}>
+                    <h4>{progress}%</h4>
+                </div>
+            ) : (
+                <></>
+            )}
         </div>
     );
 }

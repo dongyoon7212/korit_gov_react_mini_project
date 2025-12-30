@@ -40,7 +40,6 @@ function BoardListPage() {
         }
     };
 
-    // useEffect(() => {}, [searchInputValue]);
     return (
         <div css={s.container}>
             <div css={s.mainContainer}>
@@ -73,7 +72,12 @@ function BoardListPage() {
                                 </div>
                                 <div css={s.boardBottomBox}>
                                     <div>
-                                        <div>김</div>
+                                        <div css={s.profileImgBox}>
+                                            <img
+                                                src={board.profileImg}
+                                                alt="profileImg"
+                                            />
+                                        </div>
                                         <p>{board.username}</p>
                                     </div>
                                     <div>
