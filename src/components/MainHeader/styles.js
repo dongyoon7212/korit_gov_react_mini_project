@@ -9,6 +9,7 @@ export const container = css`
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid #dbdbdb;
+    flex-shrink: 0;
 `;
 
 export const leftBox = css`

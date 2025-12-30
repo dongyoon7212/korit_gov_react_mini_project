@@ -1,12 +1,33 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import MainPage from "../pages/user/MainPage/MainPage";
 import Layout from "../components/Layout/Layout";
 import AuthRouter from "./AuthRouter";
 import BoardRouter from "./BoardRouter";
+import { useQuery } from "@tanstack/react-query";
+import { getPrincipal } from "../apis/auth/authApis";
+import { usePrincipalState } from "../store/usePrincipalState";
 
 function MainRouter() {
-    const [showSideBar, setShowSideBar] = useState(false);
+    const accessToken = localStorage.getItem("AccessToken");
+    const { isLoggedIn, principal, loading, login, logout, setLoading } =
+        usePrincipalState();
+    const { data, isLoading } = useQuery({
+        queryKey: ["getPrincipal"],
+        queryFn: getPrincipal,
+        refetch: 1,
+        enabled: !!accessToken,
+    });
+
+    useEffect(() => {
+        if (data?.data.status === "success") {
+            login(data?.data.data);
+        }
+    }, [data, login]);
+
+    useEffect(() => {
+        setLoading(isLoading);
+    }, [isLoading]);
 
     return (
         <>
@@ -14,22 +35,15 @@ function MainRouter() {
                 <Route
                     path="/"
                     element={
-                        <Layout
-                            showSideBar={showSideBar}
-                            setShowSideBar={setShowSideBar}>
-                            <MainPage
-                                showSideBar={showSideBar}
-                                setShowSideBar={setShowSideBar}
-                            />
+                        <Layout>
+                            <MainPage />
                         </Layout>
                     }
                 />
                 <Route
                     path="/board/*"
                     element={
-                        <Layout
-                            showSideBar={showSideBar}
-                            setShowSideBar={setShowSideBar}>
+                        <Layout>
                             <BoardRouter />
                         </Layout>
                     }

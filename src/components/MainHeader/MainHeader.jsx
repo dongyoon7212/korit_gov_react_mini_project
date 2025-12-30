@@ -3,10 +3,12 @@ import { IoMenu } from "react-icons/io5";
 import * as s from "./styles";
 import { useNavigate } from "react-router-dom";
 import SideBar from "../SideBar/SideBar";
-import { useState } from "react";
+import { usePrincipalState } from "../../store/usePrincipalState";
 
 function MainHeader({ showSideBar, setShowSideBar }) {
     const navigate = useNavigate();
+    const { isLoggedIn, principal, loading, login, logout } =
+        usePrincipalState();
 
     return (
         <div css={s.container}>
@@ -17,10 +19,20 @@ function MainHeader({ showSideBar, setShowSideBar }) {
                 <div onClick={() => navigate("/")}>TechBoard</div>
             </div>
             <div css={s.rightBox}>
-                <button onClick={() => navigate("/auth/signin")}>로그인</button>
-                <button onClick={() => navigate("/auth/signup")}>
-                    회원가입
-                </button>
+                {loading ? (
+                    <></>
+                ) : isLoggedIn ? (
+                    <p>{principal.username}</p>
+                ) : (
+                    <>
+                        <button onClick={() => navigate("/auth/signin")}>
+                            로그인
+                        </button>
+                        <button onClick={() => navigate("/auth/signup")}>
+                            회원가입
+                        </button>
+                    </>
+                )}
             </div>
             <div css={s.sideBarContainer(showSideBar)}>
                 <SideBar setShowSideBar={setShowSideBar} />
