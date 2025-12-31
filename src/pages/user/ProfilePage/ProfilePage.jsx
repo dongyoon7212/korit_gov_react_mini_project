@@ -9,6 +9,7 @@ import { v4 as uuid } from "uuid";
 import {
     changeProfileImg,
     emailSendRequest,
+    withdrawRequest,
 } from "../../../apis/account/accountApis";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getBoardListByUserIdRequest } from "../../../apis/board/boardApis";
@@ -122,6 +123,23 @@ function ProfilePage() {
         });
     };
 
+    const onClickWithdrawHandler = () => {
+        if (!confirm("정말로 회원탈퇴를 하시겠습니까?")) {
+            return;
+        }
+
+        withdrawRequest().then((response) => {
+            if (response.data.status === "success") {
+                alert(response.data.message);
+                logout();
+                return;
+            } else if (response.data.status === "failed") {
+                alert(response.data.message);
+                return;
+            }
+        });
+    };
+
     return (
         <div css={s.container}>
             <div css={s.mainContainer}>
@@ -163,7 +181,12 @@ function ProfilePage() {
                         <p>계정 보안 및 정보를 관리하세요</p>
                     </div>
                     <div css={s.settingButtonBox}>
-                        <button>비밀번호 변경</button>
+                        <button
+                            onClick={() =>
+                                navigate("/profile/change/password")
+                            }>
+                            비밀번호 변경
+                        </button>
                         {principalData?.authorities[0]?.authority !==
                         "ROLE_USER" ? (
                             <button onClick={onClickEmailSendHandler}>
@@ -172,7 +195,9 @@ function ProfilePage() {
                         ) : (
                             <></>
                         )}
-                        <button>회원탈퇴</button>
+                        <button onClick={onClickWithdrawHandler}>
+                            회원탈퇴
+                        </button>
                     </div>
                 </div>
                 <div css={s.profileBoardBox}>
