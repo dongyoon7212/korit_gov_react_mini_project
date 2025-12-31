@@ -20,3 +20,21 @@ export const changeProfileImg = async (data) => {
         return error.response;
     }
 };
+
+export const emailSendRequest = async () => {
+    instance.interceptors.request.use((config) => {
+        const accessToken = localStorage.getItem("AccessToken");
+
+        if (accessToken) {
+            config.headers.Authorization = `Bearer ${accessToken}`;
+        }
+
+        return config;
+    });
+    try {
+        const response = await instance.post("/mail/send");
+        return response;
+    } catch (error) {
+        return error.response;
+    }
+};

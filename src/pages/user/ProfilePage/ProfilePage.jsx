@@ -6,7 +6,10 @@ import { useEffect, useRef, useState } from "react";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { storage } from "../../../apis/config/firebaseConfig";
 import { v4 as uuid } from "uuid";
-import { changeProfileImg } from "../../../apis/account/accountApis";
+import {
+    changeProfileImg,
+    emailSendRequest,
+} from "../../../apis/account/accountApis";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getBoardListByUserIdRequest } from "../../../apis/board/boardApis";
 
@@ -103,6 +106,22 @@ function ProfilePage() {
         imgInputRef.current.click();
     };
 
+    const onClickEmailSendHandler = () => {
+        if (!confirm("이메일 인증코드를 전송하시겠습니까?")) {
+            return;
+        }
+
+        emailSendRequest().then((response) => {
+            if (response.data.status === "success") {
+                alert(response.data.message);
+                return;
+            } else if (response.data.status === "failed") {
+                alert(response.data.message);
+                return;
+            }
+        });
+    };
+
     return (
         <div css={s.container}>
             <div css={s.mainContainer}>
@@ -135,7 +154,7 @@ function ProfilePage() {
                     </div>
                     <div css={s.profileBottomBox}>
                         <div>작성한 게시물</div>
-                        <p>3</p>
+                        <p>{data?.data?.data.length}</p>
                     </div>
                 </div>
                 <div css={s.profileSettingBox}>
@@ -145,14 +164,24 @@ function ProfilePage() {
                     </div>
                     <div css={s.settingButtonBox}>
                         <button>비밀번호 변경</button>
-                        <button>이메일 인증</button>
+                        {principalData?.authorities[0]?.authority !==
+                        "ROLE_USER" ? (
+                            <button onClick={onClickEmailSendHandler}>
+                                이메일 인증
+                            </button>
+                        ) : (
+                            <></>
+                        )}
                         <button>회원탈퇴</button>
                     </div>
                 </div>
                 <div css={s.profileBoardBox}>
                     <div>
                         <h3>내가 작성한 게시물</h3>
-                        <p>총 0개의 게시물을 작성했습니다</p>
+                        <p>
+                            총 {data?.data?.data.length}개의 게시물을
+                            작성했습니다
+                        </p>
                     </div>
                     <div css={s.boardBox}>
                         {/* <p>작성한 게시물이 없습다.</p> */}
@@ -161,7 +190,13 @@ function ProfilePage() {
                                 <div>로딩중</div>
                             ) : (
                                 data?.data?.data.map((board) => (
-                                    <li>
+                                    <li
+                                        key={board.boardId}
+                                        onClick={() =>
+                                            navigate(
+                                                `/board/edit/${board.boardId}`
+                                            )
+                                        }>
                                         <div>
                                             <h4>{board.title}</h4>
                                             <p>{board.content}</p>

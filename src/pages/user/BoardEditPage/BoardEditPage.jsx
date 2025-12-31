@@ -28,7 +28,7 @@ function BoardEditPage() {
     const cancelOnClickHandler = () => {
         setTitleInputValue("");
         setContentInputValue("");
-        navigate("/board/list");
+        navigate(`/profile/${principal.username}`);
     };
 
     const editOnClickHandler = () => {
