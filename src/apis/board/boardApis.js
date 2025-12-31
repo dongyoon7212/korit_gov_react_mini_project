@@ -71,3 +71,21 @@ export const getBoardByKeywordRequest = async (keyword) => {
         return error.response;
     }
 };
+
+export const modifyBoardByBoardIdRequest = async (data) => {
+    instance.interceptors.request.use((config) => {
+        const accessToken = localStorage.getItem("AccessToken");
+
+        if (accessToken) {
+            config.headers.Authorization = `Bearer ${accessToken}`;
+        }
+
+        return config;
+    });
+    try {
+        const response = await instance.post("/board/modify", data);
+        return response;
+    } catch (error) {
+        return error.response;
+    }
+};

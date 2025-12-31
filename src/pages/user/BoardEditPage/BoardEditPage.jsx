@@ -2,11 +2,15 @@
 import * as s from "./styles";
 import { useEffect, useState } from "react";
 import { MdOutlineTipsAndUpdates } from "react-icons/md";
-import { getBoardByBoardIdRequest } from "../../../apis/board/boardApis";
+import {
+    getBoardByBoardIdRequest,
+    modifyBoardByBoardIdRequest,
+} from "../../../apis/board/boardApis";
 import { useNavigate, useParams } from "react-router-dom";
+import { usePrincipalState } from "../../../store/usePrincipalState";
 
 function BoardEditPage() {
-    const [boardData, setBoardData] = useState({});
+    const { principal } = usePrincipalState();
     const [titleInputValue, setTitleInputValue] = useState("");
     const [contentInputValue, setContentInputValue] = useState("");
     const { boardId } = useParams();
@@ -26,10 +30,34 @@ function BoardEditPage() {
         navigate("/board/list");
     };
 
+    const editOnClickHandler = () => {
+        if (
+            titleInputValue.trim().length === 0 ||
+            contentInputValue.trim().length === 0
+        ) {
+            alert("모든 항목을 입력해주세요.");
+            return;
+        }
+
+        modifyBoardByBoardIdRequest({
+            title: titleInputValue,
+            content: contentInputValue,
+            userId: principal.userId,
+            boardId: boardId,
+        }).then((response) => {
+            if (response.data.status === "success") {
+                alert("게시물이 수정 되었습니다.");
+                navigate(`/board/${boardId}`);
+            } else if (response.data.status === "failed") {
+                alert(response.data.message);
+                return;
+            }
+        });
+    };
+
     useEffect(() => {
         getBoardByBoardIdRequest(boardId).then((response) => {
             if (response.data.status === "success") {
-                setBoardData(response.data.data);
                 setTitleInputValue(response.data.data.title);
                 setContentInputValue(response.data.data.content);
             } else if (response.data.status === "failed") {
@@ -73,8 +101,15 @@ function BoardEditPage() {
                             <span>최소 10자 이상 작성해주세요</span>
                         </div>
                         <div>
-                            <button onClick={cancelOnClickHandler}>취소</button>
-                            <button>수정하기</button>
+                            <button>삭제하기</button>
+                            <div>
+                                <button onClick={cancelOnClickHandler}>
+                                    취소
+                                </button>
+                                <button onClick={editOnClickHandler}>
+                                    수정하기
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
