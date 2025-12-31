@@ -24,6 +24,12 @@ function SigninPage() {
         });
     };
 
+    const onKeyDownHandler = (e) => {
+        if (e.key === "Enter") {
+            signinOnClickHandler();
+        }
+    };
+
     const signinOnClickHandler = () => {
         if (
             signinInputValue.email.trim().length === 0 ||
@@ -73,6 +79,7 @@ function SigninPage() {
                                     type="email"
                                     placeholder="이메일을 입력해주세요"
                                     onChange={signinInputOnChangeHandler}
+                                    onKeyDown={onKeyDownHandler}
                                 />
                             </div>
                             <div>
@@ -83,6 +90,7 @@ function SigninPage() {
                                     type="password"
                                     placeholder="비밀번호를 입력해주세요"
                                     onChange={signinInputOnChangeHandler}
+                                    onKeyDown={onKeyDownHandler}
                                 />
                             </div>
                             <button onClick={signinOnClickHandler}>

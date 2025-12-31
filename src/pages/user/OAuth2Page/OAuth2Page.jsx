@@ -9,7 +9,7 @@ import { SiNaver } from "react-icons/si";
 
 function OAuth2Page() {
     const navigate = useNavigate();
-    const [searchParams, setSearchParams] = useSearchParams();
+    const [searchParams] = useSearchParams();
     const [oAuth2UserData, setOAuth2UserData] = useState({
         provider: "",
         providerUserId: "",
@@ -64,7 +64,12 @@ function OAuth2Page() {
                             연결합니다.
                         </div>
                     </button>
-                    <button>
+                    <button
+                        onClick={() =>
+                            navigate("/auth/oauth2/signup", {
+                                state: oAuth2UserData,
+                            })
+                        }>
                         <LuUserPlus />
                         <div>새 계정으로 가입</div>
                         <div>
