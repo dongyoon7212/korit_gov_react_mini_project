@@ -92,7 +92,7 @@ function ProfilePage() {
                         uploadTask.snapshot.ref
                     );
                     changeProfileImgMutation.mutate({
-                        userId: principal.userId,
+                        userId: principalData?.userId,
                         profileImg: downloadUrl,
                     });
                 } catch (error) {
