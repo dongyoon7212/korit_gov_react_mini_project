@@ -48,7 +48,12 @@ function OAuth2Page() {
                     </p>
                 </div>
                 <div css={s.bottomBox}>
-                    <button>
+                    <button
+                        onClick={() =>
+                            navigate("/auth/oauth2/merge", {
+                                state: oAuth2UserData,
+                            })
+                        }>
                         <IoLink />
                         <div>기존 계정과 연동</div>
                         <div>
