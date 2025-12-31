@@ -5,6 +5,7 @@ import { MdOutlineTipsAndUpdates } from "react-icons/md";
 import {
     getBoardByBoardIdRequest,
     modifyBoardByBoardIdRequest,
+    removeBoardByBoardIdRequest,
 } from "../../../apis/board/boardApis";
 import { useNavigate, useParams } from "react-router-dom";
 import { usePrincipalState } from "../../../store/usePrincipalState";
@@ -48,6 +49,25 @@ function BoardEditPage() {
             if (response.data.status === "success") {
                 alert("게시물이 수정 되었습니다.");
                 navigate(`/board/${boardId}`);
+            } else if (response.data.status === "failed") {
+                alert(response.data.message);
+                return;
+            }
+        });
+    };
+
+    const removeOnClickHandler = () => {
+        if (!confirm("정말로 게시물을 삭제하시겠습니까?")) {
+            return;
+        }
+
+        removeBoardByBoardIdRequest({
+            userId: principal.userId,
+            boardId: boardId,
+        }).then((response) => {
+            if (response.data.status === "success") {
+                alert("게시물이 삭제 되었습니다.");
+                navigate(`/profile/${principal.username}`);
             } else if (response.data.status === "failed") {
                 alert(response.data.message);
                 return;
@@ -101,7 +121,9 @@ function BoardEditPage() {
                             <span>최소 10자 이상 작성해주세요</span>
                         </div>
                         <div>
-                            <button>삭제하기</button>
+                            <button onClick={removeOnClickHandler}>
+                                삭제하기
+                            </button>
                             <div>
                                 <button onClick={cancelOnClickHandler}>
                                     취소
