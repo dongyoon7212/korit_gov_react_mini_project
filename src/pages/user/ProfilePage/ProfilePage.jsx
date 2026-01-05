@@ -170,7 +170,12 @@ function ProfilePage() {
                             <button onClick={() => logout()}>로그아웃</button>
                             {principalData?.authorities[0].authority ===
                             "ROLE_ADMIN" ? (
-                                <button>관리자 대시보드</button>
+                                <button
+                                    onClick={() =>
+                                        navigate("/admin/dashboard")
+                                    }>
+                                    관리자 대시보드
+                                </button>
                             ) : (
                                 <></>
                             )}
