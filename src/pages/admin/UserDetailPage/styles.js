@@ -46,7 +46,7 @@ export const profileContainer = (status) => css`
             background-color: ${status === "ACTIVE" ? "#f0fdf4" : "#fef2f2"};
             color: ${status === "ACTIVE" ? "#008236" : "#c10007"};
             display: flex;
-            align-items: center;z
+            align-items: center;
             gap: 10px;
             font-size: 14px;
         }

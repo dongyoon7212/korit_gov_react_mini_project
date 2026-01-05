@@ -80,7 +80,7 @@ function DashBoardPage() {
                             활성화/비활성화 관리
                         </p>
                     </button>
-                    <button>
+                    <button onClick={() => navigate("/admin/manage/board")}>
                         <div>
                             <IoDocumentTextOutline />
                         </div>
