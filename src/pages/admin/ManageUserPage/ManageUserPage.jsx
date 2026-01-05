@@ -17,7 +17,17 @@ function ManageUserPage() {
     });
 
     useEffect(() => {
-        console.log(searchValue);
+        if (searchValue.trim().length === 0) {
+            setUserData(data?.data?.data);
+        } else {
+            setUserData(
+                data?.data?.data.filter(
+                    (user) =>
+                        user.username.includes(searchValue) ||
+                        user.email.includes(searchValue)
+                )
+            );
+        }
     }, [searchValue]);
 
     useEffect(() => {
@@ -49,7 +59,14 @@ function ManageUserPage() {
                     <h4>회원 목록 ({userData?.length}명)</h4>
                     <ul>
                         {userData?.map((user) => (
-                            <li key={user.userId} css={s.userContainer}>
+                            <li
+                                key={user.userId}
+                                css={s.userContainer}
+                                onClick={() =>
+                                    navigate(
+                                        `/admin/manage/user/${user.username}`
+                                    )
+                                }>
                                 <div>
                                     <img
                                         src={user.profileImg}
