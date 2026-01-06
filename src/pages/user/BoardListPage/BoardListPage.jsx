@@ -3,42 +3,86 @@ import { IoArrowBack } from "react-icons/io5";
 import * as s from "./styles";
 import { LuSearch } from "react-icons/lu";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
     getBoardByKeywordRequest,
+    getBoardInfiniteRequest,
     getBoardListRequest,
 } from "../../../apis/board/boardApis";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { SyncLoader } from "react-spinners";
 
 function BoardListPage() {
-    const [boardList, setBoardList] = useState([]);
+    // const [boardList, setBoardList] = useState([]);
     const [searchInputValue, setSearchInputValue] = useState("");
     const navigate = useNavigate();
+    const bottomRef = useRef(null);
+
+    const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } =
+        useInfiniteQuery({
+            queryKey: ["boardInfinite"],
+            queryFn: getBoardInfiniteRequest,
+            initialPageParam: null,
+            getNextPageParam: (lastPage) => {
+                if (
+                    !lastPage?.data?.data?.hasNext ||
+                    !lastPage?.data?.data?.boardNextCursor
+                ) {
+                    //다음 페이지가 없을때
+                    return undefined;
+                }
+                return lastPage?.data?.data?.boardNextCursor; // 다음 요청의 params
+            },
+        });
+
+    const boardList =
+        data?.pages?.flatMap((p) => p?.data?.data?.boardRespDtoList ?? []) ??
+        [];
 
     useEffect(() => {
-        getBoardListRequest().then((response) => {
-            if (response.data.status === "success") {
-                setBoardList(response.data.data);
-            } else if (response.data.status === "failed") {
-                alert(response.data.message);
-            }
-        });
-    }, []);
+        if (!bottomRef.current) return;
 
-    const searchOnChangeHandler = (e) => {
-        setSearchInputValue(e.target.value);
-    };
+        const observer = new IntersectionObserver(
+            (entries) => {
+                const first = entries[0];
+                if (!first.isIntersecting) return;
+                if (!hasNextPage) return;
+                if (isFetchingNextPage) return;
 
-    const searchOnKeyDownHandler = (e) => {
-        if (e.key === "Enter") {
-            getBoardByKeywordRequest(searchInputValue).then((response) => {
-                if (response.data.status === "success") {
-                    setBoardList(response.data.data);
-                } else if (response.data.status === "failed") {
-                    alert(response.data.message);
-                }
-            });
-        }
-    };
+                fetchNextPage();
+            },
+            { threshold: 0.1 }
+        );
+
+        observer.observe(bottomRef.current);
+        return () => observer.disconnect();
+    }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
+
+    // useEffect(() => {
+    //     getBoardListRequest().then((response) => {
+    //         if (response.data.status === "success") {
+    //             setBoardList(response.data.data);
+    //         } else if (response.data.status === "failed") {
+    //             alert(response.data.message);
+    //         }
+    //     });
+    // }, []);
+
+    // const searchOnChangeHandler = (e) => {
+    //     setSearchInputValue(e.target.value);
+    // };
+
+    // const searchOnKeyDownHandler = (e) => {
+    //     if (e.key === "Enter") {
+    //         getBoardByKeywordRequest(searchInputValue).then((response) => {
+    //             if (response.data.status === "success") {
+    //                 setBoardList(response.data.data);
+    //             } else if (response.data.status === "failed") {
+    //                 alert(response.data.message);
+    //             }
+    //         });
+    //     }
+    // };
 
     return (
         <div css={s.container}>
@@ -53,14 +97,14 @@ function BoardListPage() {
                         <input
                             type="text"
                             placeholder="게시물 제목을 검색하세요."
-                            onChange={searchOnChangeHandler}
-                            onKeyDown={searchOnKeyDownHandler}
+                            // onChange={searchOnChangeHandler}
+                            // onKeyDown={searchOnKeyDownHandler}
                         />
                     </div>
                 </div>
                 <div css={s.listContainer}>
                     <ul>
-                        {boardList.map((board) => (
+                        {boardList?.map((board) => (
                             <li
                                 key={board.boardId}
                                 onClick={() =>
@@ -86,9 +130,15 @@ function BoardListPage() {
                                 </div>
                             </li>
                         ))}
+                        <div ref={bottomRef} style={{ height: 1 }} />
+                        {isFetchingNextPage && (
+                            <div css={s.loaderBox}>
+                                <SyncLoader color="#4f39f6" />
+                            </div>
+                        )}
+                        {!hasNextPage && <div>마지막 페이지입니다.</div>}
                     </ul>
                 </div>
-                <div></div>
             </div>
         </div>
     );

@@ -77,6 +77,8 @@ export const listContainer = css`
     box-sizing: border-box;
 
     & > ul {
+        /* height: 700px;
+        overflow: auto; */
         list-style: none;
         display: flex;
         flex-direction: column;
@@ -149,4 +151,12 @@ export const profileImgBox = css`
         height: 100%;
         object-fit: cover;
     }
+`;
+
+export const loaderBox = css`
+    width: 100%;
+    padding: 50px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 `;
