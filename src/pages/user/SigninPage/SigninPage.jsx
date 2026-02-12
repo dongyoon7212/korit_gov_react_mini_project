@@ -104,7 +104,7 @@ function SigninPage() {
                             <button
                                 onClick={() =>
                                     (window.location.href =
-                                        "http://usedprice.store/oauth2/authorization/google")
+                                        "http://usedprice.store/api/oauth2/authorization/google")
                                 }>
                                 <FcGoogle />
                                 구글로 로그인
@@ -112,7 +112,7 @@ function SigninPage() {
                             <button
                                 onClick={() =>
                                     (window.location.href =
-                                        "http://usedprice.store/oauth2/authorization/naver")
+                                        "http://usedprice.store/api/oauth2/authorization/naver")
                                 }>
                                 <SiNaver />
                                 네이버로 로그인
